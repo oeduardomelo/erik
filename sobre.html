@@ -1,0 +1,1523 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>e-Schooling</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Fonte Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <style>
+      :root {
+        --btn-dark-bg: #983aff;
+        --btn-dark-icon: #ffffff;
+        --btn-light-bg: #a3d0f3;
+        --btn-light-icon: #ffffff;
+      }
+
+      body {
+        background: url("imagens/Background.png") repeat-y top center, #0d001e;
+        background-size: 100% auto, auto;
+        height: 100vh;
+        transition: background-color 0.3s ease;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* LIGHT MODE */
+      body.light-theme {
+        background: url("imagens/background-light.png") no-repeat top center,
+                    url("imagens/Background.png") repeat-y top center,
+                    #cce8fe;
+        background-size: 100% auto, 100% auto, auto;
+      }
+
+      body.light-theme .navbar-brand img {
+        content: url('/imagens/Vector3.png');
+      }
+
+      body.light-theme .navbar {
+        background-color: #cbe7fe !important;
+      }
+
+      .navbar {
+        background-color: rgba(18, 5, 90, 0.123) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      .navbar-fullwidth {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .navbar-content {
+        display: flex;
+        align-items: center;
+        gap: 35rem;
+      }
+
+      .navbar-brand {
+        position: relative;
+        display: inline-block;
+        width: 9em;
+        flex-shrink: 0;
+      }
+
+      .navbar-brand img {
+        width: 100%;
+        height: auto;
+        display: block;
+        position: relative;
+        z-index: 1;
+      }
+
+      .navbar-brand:hover img {
+        opacity: 0;
+      }
+
+      .navbar-brand:hover::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("/imagens/Vector2.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 2;
+      }
+
+      #theme-icon {
+        font-size: 20px;
+      }
+
+      .navbar-nav {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.25rem 0.5rem;
+        color: white !important;
+        font-weight: 200;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover {
+        border-radius: 2rem;
+        background-color: #9bd3fc;
+        padding: 0.25rem 0.75rem;
+      }
+
+      body.light-theme .nav-link {
+        color: black !important;
+      }
+
+      .btn-navbar {
+        position: relative;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        color: white;
+        cursor: pointer;
+        padding: 0.5rem 1.5rem;
+        border-radius: 3rem;
+        background: linear-gradient(to right, #1589ff, #8d41ff);
+        border: none;
+        z-index: 0;
+        overflow: hidden;
+        transition: color 0.3s ease, background 0.3s ease;
+      }
+
+      .btn-navbar::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 3rem;
+        padding: 1px;
+        background: linear-gradient(to right, #1589ff, #8d41ff);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        z-index: -1;
+        transition: background 0.3s ease;
+      }
+
+      .btn-navbar:hover {
+        color: white;
+        background: linear-gradient(to right, #8d41ff, #1589ff);
+        border: none;
+      }
+
+      .btn-navbar:hover::before {
+        background: none;
+      }
+
+      body.light-theme .btn-navbar {
+        color: white !important;
+        border: none;
+        background: linear-gradient(to right, #1689ff, #903eff);
+      }
+
+      body.light-theme .btn-navbar::before {
+        background: linear-gradient(to right, #903eff, #1689ff);
+        display: none;
+      }
+
+      body.light-theme .btn-navbar:hover {
+        color: white !important;
+        background: linear-gradient(to right, #903eff, #1689ff);
+      }
+
+      body.light-theme .btn-navbar:hover::before {
+        background: none;
+      }
+
+      .btn-theme {
+        background-color: var(--btn-dark-bg);
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--btn-dark-icon);
+        transition: background-color 0.3s ease, color 0.3s ease;
+        padding: 0;
+        font-size: 5px;
+        user-select: none;
+      }
+
+      .btn-theme:hover {
+        filter: brightness(1.1);
+      }
+
+      body.light-theme .btn-theme {
+        background-color: var(--btn-light-bg);
+        color: var(--btn-light-icon);
+      }
+
+      body.light-theme .btn-theme:hover {
+        filter: brightness(1.1);
+      }
+
+
+      /* VIDEO */
+
+      
+      .intro-text {
+        text-align: center;
+        max-width: 800px;
+        margin: 10rem auto 2rem auto;
+      }
+
+      .intro-text .small-text {
+        font-size: 0.9rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .intro-text .main-text {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        transition: transform 0.5s ease;
+      }
+
+      body.light-theme .intro-text .small-text,
+      body.light-theme .intro-text .main-text {
+        color: #0f0f0f;
+      }
+
+      body:not(.light-theme) .intro-text .small-text {
+        color: rgb(231, 231, 231);
+      }
+
+      body:not(.light-theme) .intro-text .main-text {
+        color: #ffffff;
+      }
+
+      /* Cor do texto span no dark */
+      .intro-text .main-text .highlight-text {
+        color: #a340ff;
+      }
+
+      /* Cor do texto span no light */
+      body.light-theme .intro-text .main-text .highlight-text {
+        color: #0c8fff;
+      }
+
+      /* Bloco da imagem interativa */
+      .image-hover-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5rem;
+        position: relative;
+        height: 350px; /* fixar altura para dar espaço e evitar texto sobreposto */
+        cursor: pointer;
+      }
+
+      .image-hover-container img.main-img {
+        width: 600px;
+        max-width: 80vw;
+        position: absolute;
+        top: 1.2rem;
+        left: 50%;
+        transform: translateX(-50%) scale(1);
+        transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+        z-index: 1;
+      }
+
+      .image-hover-container img.hover-img {
+        width: 600px;
+        max-width: 80vw;
+        position: absolute;
+        top: 1.2rem;
+        left: 50%;
+        transform: translateX(-50%) scale(1);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 2;
+      }
+
+      .image-hover-container:hover img.main-img {
+        transform: translateX(-50%) scale(0.85);
+        opacity: 0;
+      }
+
+      .image-hover-container:hover img.hover-img {
+        opacity: 1;
+        transform: translateX(-50%) scale(0.85);
+      }
+
+      .image-hover-container:hover ~ .intro-text .main-text {
+        transform: scale(1.2);
+      }
+
+      /* VIDEO */
+
+      /* Nova seção com texto, abaixo da imagem */
+      
+      article.secondary-text {
+      max-width: 800px;
+      margin: 3rem auto 4.5rem auto;
+      text-align: center;
+}
+
+      article.secondary-text .small-text {
+        font-size: 0.9rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        color: white; /* cor default para dark mode */
+        transition: color 0.3s ease;
+      }
+
+      article.secondary-text .main-text {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        color: #ffffff;
+        transition: color 0.3s ease;
+      }
+
+      body.light-theme article.secondary-text .small-text {
+        color: #222222;
+      }
+
+      body.light-theme article.secondary-text .main-text {
+        color: #111111;
+      }
+
+      /* Span com destaque no texto secundário */
+      article.secondary-text .main-text .highlight-text {
+        color: #a340ff;
+        max-width: 800px;      /* Aumenta largura máxima */
+        display: inline-block; /* Para o max-width funcionar */
+        text-align: center;    /* Opcional */
+      }
+
+      body.light-theme article.secondary-text .main-text .highlight-text {
+        color: #0c8fff;
+        max-width: 900px;
+        display: inline-block;
+        text-align: center;
+      }
+
+      /* Novos estilos para o bloco dos 3 mini textos com ícone */
+
+      .mini-texts-container {
+        max-width: 800px;
+        margin: 0 auto 3rem auto;
+        display: flex;
+        gap: 2rem;
+      }
+
+      .mini-text-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 33.3333%;
+        font-size: 0.75rem;
+        font-weight: 300;
+        color: white;
+        gap: 0.50rem;
+      }
+
+      body.light-theme .mini-text-item {
+        color: #222222;
+      }
+
+      .content-text {
+         color: white;
+      }
+
+      body.light-theme .content-text {
+         color: black;
+}
+
+      .mini-text-icon {
+        font-size: 35px;
+        color: #a340ff;
+      }
+
+      body.light-theme .mini-text-icon {
+        color: #0c8fff;
+      }
+
+      /*ASIDE ESTILIZAÇÃO*/
+      .content-aside {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  max-width: 855px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: white;
+  align-items: start;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.content-aside h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #903eff; /* roxo vibrante no dark */
+}
+
+.right-column h3 {
+  color: white;
+}
+
+.content-aside p {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+body.light-theme .content-aside {
+  color: #222;
+}
+
+body.light-theme .content-aside h3 {
+  color: #0c8fff; 
+}
+
+body.light-theme .right-column h3 {
+  color: #111;
+}
+
+/* FALE CONOSCO EDIT*/
+/* 📦 Container */
+.image-hover {
+  position: relative;
+  width: 65%;
+  max-width: 600px;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  justify-content: center;
+  margin: -90px auto 0 auto; /* 🔼 sobe a imagem */
+}
+
+/* 🖼️ Estilo base para todas as imagens */
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition:
+    opacity 1.5s ease-in-out,
+    transform 3s ease-in-out;
+}
+
+/* 🔄 Hover começa invisível */
+.hover {
+  opacity: 0;
+}
+
+/* 🖱️ No hover, faz a imagem hover aparecer e aplica escala */
+.image-hover:hover .hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.image-hover:hover .normal {
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+/* 🌙 DARK MODE */
+body:not(.light-theme) .dark-img {
+  display: block;
+}
+
+body:not(.light-theme) .light-img {
+  display: none;
+}
+
+/* ☀️ LIGHT MODE */
+body.light-theme .light-img {
+  display: block;
+}
+
+body.light-theme .dark-img {
+  display: none;
+}
+
+
+/* --- Controle de tema --- */
+
+/* DARK MODE - mostra imagens dark */
+body:not(.light-theme) .dark-img {
+  display: block;
+}
+
+body:not(.light-theme) .light-img {
+  display: none;
+}
+
+/* LIGHT MODE - mostra imagens light */
+body.light-theme .light-img {
+  display: block;
+}
+
+body.light-theme .dark-img {
+  display: none;
+}
+
+/* main edit*/
+/* 🎯 Estilo base do container */
+main.secondary-text {
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* 📌 Texto pequeno */
+main.secondary-text .small-text {
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #ccc;
+  transition: color 0.3s ease;
+}
+
+/* 🏹 Texto principal */
+main.secondary-text .main-text {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 1.5rem 0;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+/* ✨ Destaque no texto */
+main.secondary-text .main-text .highlight-text {
+  color: #a340ff;
+  display: inline-block;
+  max-width: 800px;
+  transition: color 0.3s ease;
+}
+
+/* ☀️ LIGHT MODE */
+body.light-theme main.secondary-text .small-text {
+  color: #222222;
+}
+
+body.light-theme main.secondary-text .main-text {
+  color: #111111;
+}
+
+body.light-theme main.secondary-text .main-text .highlight-text {
+  color: #0c8fff;
+  max-width: 900px;
+}
+/* 🌍 Imagem do mapa */
+.map-image {
+  background-image: url('/imagens/Mapa.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 350px; /* Ajuste conforme necessário */
+  transition: background-image 0.3s ease;
+}
+
+/* ☀️ Light mode */
+body.light-theme .map-image {
+  background-image: url('/imagens/Mapa2.svg');
+}
+
+.numbers-container {
+  display: flex;
+  justify-content: center; /* centraliza */
+  gap: 60px; /* espaço entre os itens */
+  flex-wrap: wrap; /* quebra se for tela pequena */
+}
+
+.numbers {
+  text-align: center;
+  color: #a340ff; /* cor similar à da imagem */
+  font-family: 'Poppins', sans-serif;
+}
+
+.highlight-text {
+  font-size: 28px;
+  font-weight: 700;
+  color: #a340ff;
+}
+
+body.light-theme .highlight-text {
+  color: #0c8fff; /* azul no modo light */
+}
+
+.small-text {
+  font-size: 13px;
+  color: #ccc;
+  margin-top: 20px; /* ajusta o valor como quiser */
+}
+.highlight-inline {
+  color: #a340ff;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+body.light-theme .highlight-inline {
+  color: #0c8fff;
+}
+
+/*main 2*/
+/* 🔥 Área principal */
+main2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  min-height: 250px; /* ou ajuste para o que precisar */
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+main2 .texto-principal {
+  max-width: 700px;
+}
+
+main2 .small-text {
+  font-size: 0.75rem;
+  margin: 0.5rem auto;
+  max-width: 900px;
+  line-height: 1.5;
+  color: #dcdcdc;
+  transition: color 0.3s ease;
+}
+
+main2 .main-text {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+main2 .main-text .highlight-text {
+  background: linear-gradient(90deg, #754fff, #297dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.light-theme main2 {
+  color: #222222;
+}
+
+body.light-theme main2 .small-text {
+  color: #555555;
+}
+
+body.light-theme main2 .main-text {
+  color: #111111;
+}
+
+body.light-theme main2 .main-text .highlight-text {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: #0c8fff;
+  background-clip: unset;
+  color: #0c8fff;
+}
+
+/*MAIN 3*/
+
+/* === MAIN3 CONTAINER === */
+.main3 {
+  transform: translateY(-80px); /* sobe 20px */
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+/* === CARD GRID === */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* === CARD STYLE === */
+.card {
+  background-color: #1a082d;
+  border-radius: 15px;
+  padding: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+body.light-theme .card {
+  background-color: #cce8fe;
+  border: none;
+}
+
+/* === IMAGEM === */
+.card img {
+  cursor: pointer;
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+/* === TAG === */
+.tag {
+  cursor: pointer;
+  color: #a340ff;
+  font-weight: 600;
+  text-align: left;
+  font-size: 13px;
+  margin-bottom: 0.5rem;
+}
+
+body.light-theme .tag {
+  color: #007bff;
+}
+
+/* === TÍTULO === */
+.card h3 {
+  font-size: 20px;
+  color: white;
+  text-align: left;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 0.8rem;
+}
+
+.card h3:hover {
+  color: #a340ff;
+}
+
+body.light-theme .card h3 {
+  color: #111;
+}
+
+body.light-theme .card h3:hover {
+  color: #0c8fff;
+}
+
+/* === DESCRIÇÃO === */
+.card .description {
+  font-size: 14px;
+  color: #ccc;
+  text-align: left;
+  margin-bottom: 1.2rem;
+}
+
+body.light-theme .card .description {
+  color: #444;
+}
+
+/* === FOOTER === */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #ccc;
+}
+
+body.light-theme .card-footer {
+  color: #444;
+}
+
+.card-footer a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+body.light-theme .card-footer a {
+  color: #111;
+}
+
+/* === TEXTO INFERIOR === */
+.bottom-text {
+  margin-top: 60px;
+  color: white;
+  font-size: 15px;
+}
+
+body.light-theme .bottom-text {
+  color: #111;
+}
+
+/* === BOTÃO === */
+.blog-button {
+  margin-top: 20px;
+  background-color: transparent;
+  border: 1px solid #a340ff;
+  color: #a340ff;
+  padding: 10px 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.blog-button:hover {
+  background-color: #a340ff;
+  color: white;
+  font-size: 14px;
+
+}
+
+body.light-theme .blog-button {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+body.light-theme .blog-button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/*MAIN 4*/
+
+/* === MAIN4 CONTAINER === */
+.main4 {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 0 2rem;
+}
+.main4:hover {
+  max-width: 925px;
+  margin: 65px auto;
+  padding: 0 2rem;
+}
+
+/* === BOX === */
+.newsletter-box {
+  background-color: #6023a2;
+  border-radius: 25px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Light Theme */
+body.light-theme .newsletter-box {
+  background-color: #2c94ef;
+}
+
+/* === TEXTO === */
+.text-content .tag {
+  color: white;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 0.3rem;
+}
+
+body.light-theme .text-content .tag {
+  color: white;
+}
+
+.text-content h2 {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+body.light-theme .text-content h2 {
+  color: white;
+}
+
+.text-content .description {
+  color: #e0d8f5;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+body.light-theme .text-content .description {
+  color: white;
+}
+
+/* === FORMULÁRIO === */
+.newsletter-form {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.newsletter-form input::placeholder {
+  color: #888;
+}
+
+/* === BOTÃO === */
+.newsletter-form button {
+  background-color: #1a082d;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 13px;
+}
+
+.newsletter-form button:hover {
+  background-color: #3b1164;
+}
+
+/* Light Theme Botão */
+body.light-theme .newsletter-form button {
+  background-color: #043158;
+}
+
+body.light-theme .newsletter-form button:hover {
+  background-color: white;
+}
+
+/*FOOTER*/
+
+/* ==== FOOTER ==== */
+.footer {
+  background-color: #0c0017;
+  color: white;
+  padding: 3rem 2rem 1.5rem 2rem;
+}
+
+body.light-theme .footer {
+  background-color: #032949;
+  color: white;
+}
+
+/* ==== CONTAINER ==== */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ==== COLUNAS ==== */
+.footer-column {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-column .logo-footer {
+  width: 150px;
+  margin-bottom: 1rem;
+}
+
+.footer-column p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+body.light-theme .footer-column p {
+  color: white;
+}
+
+.footer-column h4 {
+  font-size: 13px;
+  color: white;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+body.light-theme .footer-column h4 {
+  color: white;
+}
+
+/* ==== LINKS ==== */
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.3s;
+}
+
+.footer-column ul li a:hover {
+  color: #a340ff;
+}
+
+body.light-theme .footer-column ul li a {
+  color: #ffffff;
+}
+
+body.light-theme .footer-column ul li a:hover {
+  color: #6c2bc5;
+}
+
+/* ==== SOCIAL ICONS ==== */
+.social-icons {
+  margin-top: 1rem;
+}
+
+.social-icons a {
+  display: inline-block;
+  background-color: white;
+  color: #0c0017;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.social-icons a:hover {
+  background-color: #a340ff;
+  color: white;
+}
+
+body.light-theme .social-icons a {
+  background-color: white;
+  color: #032949;
+}
+
+body.light-theme .social-icons a:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* ==== FOOTER BOTTOM ==== */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  color: #aaa;
+}
+
+body.light-theme .footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.footer-bottom p {
+  margin: 5px 0;
+}
+
+/*DROPDOWN FLAG*/
+
+.dropdown-menu {
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  background-color: rgba(204, 193, 255, 0.425); /* Transparente branco */
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+  <div class="navbar-fullwidth">
+    <div class="navbar-content">
+      <a class="navbar-brand" href="#">
+        <img src="/imagens/Vector.png" alt="Logo" />
+      </a>
+      <div class="collapse navbar-collapse show">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">BLOG</a>
+          </li>
+          <li class="nav-item">
+<a href="gestaoescolar.html" class="btn-navbar" style="text-decoration: none;">ACEDER &gt;</a>
+          </li>
+
+          <!-- Dropdown bandeira -->
+          <li class="nav-item dropdown">
+           
+            <button
+  id="language-btn"
+  class="btn-theme"
+  type="button"
+  data-bs-toggle="dropdown"
+  aria-expanded="false"
+  style="
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  "
+>
+  <img
+    src="imagens/br.png"
+    alt="Bandeira"
+    style="
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    "
+  />
+</button>
+              
+
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="flagDropdown">
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <img
+                    src="/imagens/br.png"
+                    alt="Português BR"
+                    style="width: 18px; height: 18px; border-radius: 50%; margin-right: 8px;"
+                  />
+                  Português/BR
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <img
+                    src="/imagens/us.png"
+                    alt="Inglês US"
+                    style="width: 18px; height: 18px; border-radius: 50%; margin-right: 8px;"
+                  />
+                  Inglês/US
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <img
+                    src="/imagens/pt.png"
+                    alt="Português PT"
+                    style="width: 18px; height: 18px; border-radius: 50%; margin-right: 8px;"
+                  />
+                  Português/PT
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          
+
+          <!-- Botão tema, sem alteração -->
+          <li class="nav-item">
+            <button id="theme-btn" class="btn-theme">
+              <span class="material-icons" id="theme-icon">dark_mode</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--VIDEO-->
+
+    <section class="intro-text">
+      <p class="small-text">LOREM IPSUM DOLOR SIT AMET</p>
+      <p class="main-text">
+        Lorem ipsum dolor sit amet,<br />
+        <span class="highlight-text">consectetur adipiscing elit.</span> Integer<br />
+        at dui elementum
+      </p>
+      <p class="small-text">
+        Lorem ipsum dolor sit amet, consectatur adipiscing elit. Integer at due elementum, finibus orel non, placerat orts.<br />
+        Suspendisse pulvinar, risus a accumsan ultricies, nibh diam auctor justo, in dignissim leo urna in ante.
+      </p>
+    </section>
+
+    <section class="image-hover-container">
+      <img src="/imagens/video-1.png" alt="Video 1" class="main-img" />
+      <img src="/imagens/video-2.png" alt="Video 2" class="hover-img" />
+    </section>
+
+
+  <!--VIDEO-->
+
+    <article class="secondary-text">
+      <p class="small-text">LOREM IPSUM DOLOR SIT AMET</p>
+      <p class="main-text">
+        Lorem ipsum dolor sit amet, <span class="highlight-text">consectetur</span><br><span class="highlight-text"> adipiscing elit.</span> Integerat dui elementum</p>
+    </article>
+
+    <!-- NOVO BLOCO DOS 3 MINI TEXTOS COM ÍCONES -->
+    <section class="mini-texts-container">
+      <div class="mini-text-item">
+        <span class="material-icons mini-text-icon">star</span>
+        <p style="font-weight: bold; margin: 0 0 0 0;">LOREM IPSUM DOLOR SIT AMET</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc turpis tortor, dignissim at arcu ac, tempor placerat ipsum. Mauris ut leo erat. Nullam vel nisi ac diam fermentum pharetra luctus.</p>
+      </div>
+      <div class="mini-text-item">
+        <span class="material-icons mini-text-icon">star</span>
+        <p style="font-weight: bold; margin: 0 0 0 0;">LOREM IPSUM DOLOR SIT AMET</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc turpis tortor, dignissim at arcu ac, tempor placerat ipsum. Mauris ut leo erat. Nullam vel nisi ac diam fermentum pharetra luctus.</p>
+      </div>
+      <div class="mini-text-item">
+        <span class="material-icons mini-text-icon">star</span>
+        <p style="font-weight: bold; margin: 0 0 0 0;">LOREM IPSUM DOLOR SIT AMET</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc turpis tortor, dignissim at arcu ac, tempor placerat ipsum. Mauris ut leo erat. Nullam vel nisi ac diam fermentum pharetra luctus.</p>
+      </div>
+    </section>
+    <div class="content-text" style="max-width: 800px; margin: 0 auto 5rem auto; font-size: 0.75rem; text-align: center;">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc turpis tortor, dignissim at arcu ac, tempor placerat ipsum. Mauris ut leo erat. Nullam vel nisi ac diam fermentum pharetra luctus dignissim arcu</p>
+</div>
+
+<aside class="content-aside">
+  <!-- Coluna da Esquerda - 3 blocos empilhados -->
+  <div class="left-column">
+    <div>
+      <h3>Nossos Valores</h3>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias voluptate sequi dolores, ab laborum, debitis eos mollitia nisi sunt delectus incidunt, asperiores perspiciatis omnis? Harum praesentium nemo incidunt earum dolore.</p>
+    </div>
+    <div>
+      <h3>Nossa Visão</h3>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias voluptate sequi dolores, ab laborum, debitis eos mollitia nisi sunt delectus incidunt, asperiores perspiciatis omnis? Harum praesentium nemo incidunt earum dolore.</p>
+    </div>
+    <div>
+      <h3>Nossa Missão</h3>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias voluptate sequi dolores, ab laborum, debitis eos mollitia nisi sunt delectus incidunt, asperiores perspiciatis omnis? Harum praesentium nemo incidunt earum dolore.</p>
+    </div>
+  </div>
+
+  <!-- Coluna da Direita - Super texto -->
+  <div class="right-column">
+    <h3>LINHA DO TEMPO</h3>
+    <p>
+      Lorem ipsum dolor sit amet. Ut enim soluta est dolorem voluptas quo suscipit maiores sed nemo excepturi est consequuntur possimus non aperiam obcaecati. Sit dolore vero id repellendus doloremque quo quasi fugiat sit cumque nobis. A sunt velit in sunt quisquam est eligendi libero vel excepturi laboriosam.
+<br><br>
+<span style="font-weight: 600;">Data: </span>Et facere quod est voluptate maxime id eveniet soluta sed voluptas tempora et minus quibusdam. At dicta asperiores et repellendus incidunt ut eveniet asperiores aut consequatur culpa in laborum nobis.
+<br><br>
+Et facere quod est voluptate maxime id eveniet soluta sed voluptas tempora et minus quibusdam. At dicta asperiores et repellendus incidunt ut eveniet asperiores aut consequatur culpa in laborum nobis.
+<br><br>
+<span style="font-weight: 600;">Data: </span>Et facere quod est voluptate maxime id eveniet soluta sed voluptas tempora et minus quibusdam. At dicta asperiores et repellendus incidunt ut eveniet asperiores aut consequatur culpa in laborum nobis.
+<br><br>
+Et facere quod est voluptate maxime id eveniet soluta sed voluptas tempora et minus quibusdam. At dicta asperiores et repellendus incidunt ut eveniet asperiores aut consequatur culpa in laborum nobis.
+<br><br>
+<span style="font-weight: 600;">Data: </span>Et facere quod est voluptate maxime id eveniet soluta sed voluptas tempora et minus quibusdam. At dicta asperiores et repellendus incidunt ut eveniet asperiores aut consequatur culpa in laborum nobis.
+<br><br>
+Et facere quod est voluptate maxime id eveniet soluta sed voluptas tempora et minus quibusdam. At dicta asperiores et repellendus incidunt ut eveniet asperiores aut consequatur culpa in laborum nobis.
+<br><br>
+<span style="font-weight: 600;">Data: </span>Et facere quod est voluptate maxime id eveniet soluta sed voluptas tempora et minus quibusdam. At dicta asperiores et repellendus incidunt ut eveniet asperiores aut consequatur culpa in laborum nobis.
+<br><br>
+<span style="font-weight: 600;">Data: </span>Et facere quod est voluptate maxime id eveniet soluta sed voluptas tempora et minus quibusdam. At dicta asperiores et repellendus incidunt ut eveniet asperiores aut consequatur culpa in laborum nobis.
+
+    </p>
+  </div>
+</aside>
+
+<article>
+  <div class="image-hover">
+    <!-- Dark Theme -->
+    <img src="/imagens/IMG1.png" class="img normal dark-img">
+    <img src="/imagens/IMG2.png" class="img hover dark-img">
+
+    <!-- Light Theme -->
+    <img src="/imagens/IMG3.png" class="img normal light-img">
+    <img src="/imagens/IMG4.png" class="img hover light-img">
+  </div>
+</article>
+
+<main class="secondary-text">
+  <p class="small-text">SOLUÇÃO MUNDIAL E REFERÊNCIA GLOBAL</p>
+  
+  <p class="main-text">
+    Oferecemos uma solução global que<br />
+    <span class="highlight-text">facilita a gestão da sua escola!</span>
+  </p>
+  
+  <p class="small-text">
+    O e-Schooling começou como uma ferramenta completa de gestão escolar e hoje é também uma plataforma centrada na aprendizagem de cada aluno!
+  </p>
+  
+  <div class="map-image"></div>
+
+  <p class="small-text">17 anos de história deixam uma marca de mudança no mundo da educação!</p>
+  <p class="small-text"><span class="highlight-inline style="color: #a340ff; font-weight: 600; font-size: 15px;">Alguns dos nossos números</span></p>
+
+  
+<div class="numbers-container">
+  <p class="numbers">
+    <span class="highlight-text">+500m</span><br>
+    <span class="small-text">utilizadores ativos</span>
+  </p>
+
+  <p class="numbers">
+    <span class="highlight-text">+200</span><br>
+    <span class="small-text">instituições de ensino</span>
+  </p>
+
+  <p class="numbers">
+    <span class="highlight-text">+8</span><br>
+    <span class="small-text">países</span>
+  </p>
+
+  <p class="numbers">
+    <span class="highlight-text">+90%</span><br>
+    <span class="small-text">de satisfação</span>
+  </p>
+</div>
+</main>
+
+<main2>
+  <div class="texto-principal">
+    <p class="small-text">LOREM IPSUM DOLOR SIT AMET</p>
+    <p class="main-text">
+      Lorem ipsum dolor sit amet,<br />
+      <span class="highlight-text">consectetur adipiscing elit.</span></p>
+      
+    <p class="small-text">
+      Este é um espaço para quem sonha mais alto na educação. Para quem questiona e procura respostas. Para quem enfrenta problemas e aceita desafios.
+      Acompanhe os temas mais atuais do mundo da educação.
+    </p>
+  </div>
+</main2>
+
+<main class="main3">
+  <div class="cards-container">
+
+    <!-- Card 1 -->
+    <div class="card">
+      <img src="/imagens/1.jpg" alt="Imagem 1" />
+      <p class="tag">MARCADOR 1</p>
+      <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+      <p class="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque metus magna, pharetra quis risus eget, porta fringilla dolor.
+      </p>
+      <div class="card-footer">
+        <span>5m de Leitura</span>
+        <a href="#">LEIA O ARTIGO ▸</a>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <img src="/imagens/2.jpg" alt="Imagem 2" />
+      <p class="tag">MARCADOR 1</p>
+      <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+      <p class="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque metus magna, pharetra quis risus eget, porta fringilla dolor.
+      </p>
+      <div class="card-footer">
+        <span>5m de Leitura</span>
+        <a href="#">LEIA O ARTIGO ▸</a>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <img src="/imagens/3.jpg" alt="Imagem 3" />
+      <p class="tag">MARCADOR 1</p>
+      <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+      <p class="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque metus magna, pharetra quis risus eget, porta fringilla dolor.
+      </p>
+      <div class="card-footer">
+        <span>5m de Leitura</span>
+        <a href="#">LEIA O ARTIGO ▸</a>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="bottom-text">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </p>
+
+  <button class="blog-button">ACOMPANHE NOSSO BLOG COMPLETO!</button>
+</main>
+
+  <!--main 4-->
+
+  <main class="main4">
+  <div class="newsletter-box">
+    <div class="text-content">
+      <p class="tag">NEWSLETTER</p>
+      <h2>Junte-se à nossa Comunidade!</h2>
+      <p class="description">
+        Conheça, em primeira mão, todas as novidades e informações sobre o e-Schooling e receba conteúdos sobre as últimas tendências e inovações na área da educação!
+      </p>
+    </div>
+
+    <form class="newsletter-form">
+      <input type="text" placeholder="Nome" required />
+      <input type="email" placeholder="E-mail" required />
+      <button type="submit">SUBSCREVER</button>
+    </form>
+  </div>
+</main>
+
+<!--footer-->
+
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Coluna 1 -->
+    <div class="footer-column">
+      <img src="/imagens/Hover - Footer LOGO.png" alt="Logo e-Schooling" class="logo-footer" />
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut lorem massa. Nunc porttitor nunc a mauris viverra.</p>
+    </div>
+
+    <!-- Coluna 2 -->
+    <div class="footer-column">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut lorem massa.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <!-- Coluna 3 -->
+    <div class="footer-column">
+      <h4>LINKS RÁPIDOS</h4>
+      <ul>
+        <li><a href="#">Sobre o e-Schooling</a></li>
+        <li><a href="#">Política de Privacidade</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Lorem ipsum dolor</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>Copyright © 2024 e-Schooling.</p>
+    <p>Todos os Direitos reservados.</p>
+  </div>
+</footer>
+
+    <script>
+      // Código para alternar o tema, se tiver
+      const themeBtn = document.getElementById("theme-btn");
+      const themeIcon = document.getElementById("theme-icon");
+
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+
+        if (document.body.classList.contains("light-theme")) {
+          themeIcon.textContent = "light_mode";
+        } else {
+          themeIcon.textContent = "dark_mode";
+        }
+      });
+    </script>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão Escolar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: url("imagens/Background.png") repeat-y top center;
+      background-size: 100% auto;
+      height: 100vh;
+      background-color: #0d001e;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      color: #ffffff;
+    }
+
+    body.light-theme {
+      background: 
+        url("imagens/Background-homepage-light.png") no-repeat top center,
+        url("imagens/Background.png") repeat-y top center;
+      background-size: 100% auto, 100% auto;
+      background-color: #cce8fe;
+      color: #1d1d1d;
+    }
+
+    header {
+      padding: 2rem;
+      text-align: center;
+      background-color: #a259ff;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .light-theme header {
+      background-color: #007bff;
+      color: white;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #1a023a;
+      border-radius: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .light-theme main {
+      background-color: #b3dbfa;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    input, select, button {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    input, select {
+      background-color: #592394;
+      color: white;
+    }
+
+    .light-theme input,
+    .light-theme select {
+      background-color: #d2ebfe;
+      color: #1d1d1d;
+    }
+
+    button {
+      background-color: #7330ca;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .light-theme button {
+      background-color: #007bff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #ffffff;
+    }
+
+    .light-theme th,
+    .light-theme td {
+      border-bottom: 1px solid #ccc;
+    }
+
+    #tabela-cadastros th {
+      color: #ffffff;
+    }
+
+    .light-theme #tabela-cadastros th {
+      color: #1d1d1d;
+    }
+
+    #tabela-cadastros td {
+      color: #f0f0f0;
+    }
+
+    .light-theme #tabela-cadastros td {
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+
+    .light-theme footer {
+      color: #333333;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background-color: #a259ff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      z-index: 999;
+      transition: background-color 0.3s ease;
+    }
+
+    .light-theme .theme-toggle {
+      background-color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">Alternar Tema</button>
+
+  <header>
+    <h1>Gestão Escolar</h1>
+  </header>
+
+  <main>
+    <form id="form-cadastro">
+      <input type="text" id="nome" placeholder="Nome" required />
+      <select id="tipo">
+        <option value="Aluno">Aluno</option>
+        <option value="Professor">Professor</option>
+      </select>
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <table id="tabela-cadastros">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Tipo</th>
+          <th>Frequência</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <footer>
+    &copy; 2025 Sua Plataforma Educacional
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light-theme');
+    }
+
+    const form = document.getElementById('form-cadastro');
+    const tabela = document.querySelector('#tabela-cadastros tbody');
+
+    let cadastros = JSON.parse(localStorage.getItem('cadastros')) || [];
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const tipo = document.getElementById('tipo').value;
+      cadastros.push({ nome, tipo, frequencia: 0 });
+      localStorage.setItem('cadastros', JSON.stringify(cadastros));
+      form.reset();
+      renderTabela();
+    });
+
+   function renderTabela() {
+  tabela.innerHTML = '';
+  cadastros.forEach((item, index) => {
+    const row = document.createElement('tr');
+
+    // Frequência cell só aparece se tipo for Aluno
+    const frequenciaCell = item.tipo === 'Aluno' ? `
+      <td>
+        <button onclick="alterarFrequencia(${index}, -1)">-</button>
+        <span style="margin: 0 0.5rem; font-weight: bold;">${item.frequencia}</span>
+        <button onclick="alterarFrequencia(${index}, 1)">+</button>
+      </td>` : `<td></td>`;
+
+    row.innerHTML = `
+      <td><input type="text" value="${item.nome}" onchange="editNome(${index}, this.value)" /></td>
+      <td>
+        <select onchange="editTipo(${index}, this.value)">
+          <option value="Aluno" ${item.tipo === 'Aluno' ? 'selected' : ''}>Aluno</option>
+          <option value="Professor" ${item.tipo === 'Professor' ? 'selected' : ''}>Professor</option>
+        </select>
+      </td>
+      ${frequenciaCell}
+      <td><button onclick="deletarCadastro(${index})">Deletar</button></td>
+    `;
+    tabela.appendChild(row);
+  });
+}
+
+
+    function editNome(index, value) {
+      cadastros[index].nome = value;
+      localStorage.setItem('cadastros', JSON.stringify(cadastros));
+    }
+
+   function editTipo(index, value) {
+  cadastros[index].tipo = value;
+  renderTabela();  // força a tabela atualizar e ocultar/mostrar frequência
+}
+
+    function alterarFrequencia(index, delta) {
+      cadastros[index].frequencia += delta;
+      if (cadastros[index].frequencia < 0) cadastros[index].frequencia = 0;
+      localStorage.setItem('cadastros', JSON.stringify(cadastros));
+      renderTabela();
+    }
+
+    function deletarCadastro(index) {
+      cadastros.splice(index, 1);
+      localStorage.setItem('cadastros', JSON.stringify(cadastros));
+      renderTabela();
+    }
+
+    // Inicializa a tabela ao carregar
+    renderTabela();
+  </script>
+</body>
+</html>
